@@ -37,7 +37,7 @@ export class AnnonceService {
       }
     
       async getAnnonce(id: string): Promise<IAnnonce> {
-        const existingAnnonce = (await (await this.AnnonceModel.findById(id)).populate("category")).populate("vendeur");
+        const existingAnnonce =  await this.AnnonceModel.findById(id);
         if(!existingAnnonce){
           throw new NotFoundException(`Annonce #${id} not found`);
         }

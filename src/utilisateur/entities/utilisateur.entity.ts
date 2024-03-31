@@ -8,10 +8,10 @@ export class Utilisateur extends Document {
     @Prop()
     socketId: string;
 
-    @Prop({required:true})
+    @Prop({required:false})
     email: string;
 
-    @Prop({required:true})
+    @Prop({required:false})
     nom: string;
 
     @Prop({required:true})
@@ -20,10 +20,10 @@ export class Utilisateur extends Document {
     @Prop({required:true})
     password: string;
 
-    @Prop({required:true})
+    @Prop({required:false})
     adresse: string;
 
-    @Prop({required:true})
+    @Prop({required:false})
     photo: string;
 
     @Prop([{ type: SchemaTypes.ObjectId, ref:'annonce'}])
