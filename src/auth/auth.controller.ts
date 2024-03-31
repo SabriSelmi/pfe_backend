@@ -41,7 +41,7 @@ export class AuthController {
     }),
   )
   signupClient(@Body() createClientDto: CreateClientDto, @UploadedFile() file) {
-    createClientDto.photo=file.filename;
+    createClientDto.photo=file?.filename;
     return this.authService.signUpClient(createClientDto);
   }
 

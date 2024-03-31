@@ -12,16 +12,17 @@ import { FavorisModule } from './favoris/favoris.module';
 import { NormalModule } from './normal/normal.module';
 import { BigdealModule } from './bigdeal/bigdeal.module';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { VendeurModule } from './vendeur/vendeur.module';
 import { ChatGateway } from './chat/chat.gateway';
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot("mongodb://127.0.0.1:27017",{dbName:"pfe"}), 
+    MongooseModule.forRoot("mongodb://127.0.0.1:27017", { dbName: "pfe" }), 
     UtilisateurModule, AnnonceModule, AdministrateurModule, ClientModule, CategorieModule, 
     CommentaireModule, FavorisModule, NormalModule, BigdealModule, AuthModule, 
-    ConfigModule.forRoot({isGlobal:true}), VendeurModule, 
+    ConfigModule.forRoot({isGlobal:true}), VendeurModule, MessagesModule, 
   ],
   controllers: [AppController],
   providers: [AppService, ChatGateway],
