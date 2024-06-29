@@ -16,7 +16,7 @@ export class AnnonceService {
         const newAnnonce = await new this.AnnonceModel(createAnnonceDto);
         await this.CategoryModel.findByIdAndUpdate(createAnnonceDto.category, {$push:{annonces:newAnnonce}})
         await this.ClientModel.findByIdAndUpdate(createAnnonceDto.client, {$push:{annonces:newAnnonce}})
-        await this.VendeurModel.findByIdAndUpdate(createAnnonceDto.vendeur, {$push:{annonces:newAnnonce}})
+        await this.VendeurModel.findByIdAndUpdate(createAnnonceDto.vendeur, {$push:{annoncesPub:newAnnonce}})
         return newAnnonce.save();
       }
     
@@ -29,7 +29,7 @@ export class AnnonceService {
       }
     
       async getAllAnnonces(): Promise<IAnnonce[]> {
-        const AnnonceData = await this.AnnonceModel.find().populate("category").populate("client").select("-__v");
+        const AnnonceData = await this.AnnonceModel.find().populate("category").populate("vendeur").select("-__v");
         if (!AnnonceData || AnnonceData.length == 0){
           throw new NotFoundException('Annonces data not found!');
         }
@@ -77,6 +77,19 @@ export class AnnonceService {
     async getRecentAnnonces(limit: number): Promise<IAnnonce[]> {
       return await this.AnnonceModel.find().sort({ createdAt: -1 }).limit(limit).populate("category").populate("client").select("-__v");
     }
+
+    async getAnnoncesByVendeur(vendeurId: string) {
+      const annoncesByVendeur = await this.AnnonceModel
+        .find({ vendeur: vendeurId })
+        .exec();
+      if (!annoncesByVendeur || annoncesByVendeur.length === 0) {
+        throw new NotFoundException(
+          `No annonce found for vendeur with ID ${vendeurId}`,
+        );
+      }
+      return annoncesByVendeur;
+    }
+
   }
         
     

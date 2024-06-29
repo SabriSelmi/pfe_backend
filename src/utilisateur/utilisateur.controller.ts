@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, HttpStatus, Res, Put, UseInterceptors, UploadedFile} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, HttpStatus, Res, Put, UseInterceptors, UploadedFile, BadRequestException} from '@nestjs/common';
 import { UtilisateurService } from './utilisateur.service';
 import { CreateUtilisateurDto } from './dto/create-utilisateur.dto';
 import { UpdateUtilisateurDto } from './dto/update-utilisateur.dto';
@@ -107,5 +107,55 @@ export class UtilisateurController {
       });
     }
   }
- 
+
+  @Post('/email')
+  async sendResetPasswordEmail(@Res() response, @Body() resetPasswordDto: CreateUtilisateurDto) {
+    try {
+      await this.utilisateurService.sendResetPasswordEmail(resetPasswordDto.username);
+      return response.status(HttpStatus.OK).json({
+        message: 'code envoyé avec succès',
+        status: HttpStatus.OK,
+      });
+    } catch (err) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: err.message,
+        status: HttpStatus.BAD_REQUEST,
+        data: null,
+      });
+    }
+  }
+  @Post('/verification-code')
+  async verifyResetCode(@Res() response, @Body() resetPasswordDto: CreateUtilisateurDto) {
+    try {
+      await this.utilisateurService.verifyResetCode(resetPasswordDto.resetCode);
+      return response.status(HttpStatus.OK).json({
+        message: 'code correct',
+        status: HttpStatus.OK,
+      });
+    } catch (err) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: err.message,
+        status: HttpStatus.BAD_REQUEST,
+        data: null,
+      });
+    }
+  }
+
+  @Post('/reset-password')
+  async resetPassword(@Res() response, @Body() resetPasswordDto: CreateUtilisateurDto) {
+    try {
+      await this.utilisateurService.resetPassword(resetPasswordDto.username, resetPasswordDto.password);
+
+      return response.status(HttpStatus.OK).json({
+        message: 'Mot de passe réinitialisé avec succès',
+        status: HttpStatus.OK,
+      });
+    } catch (err) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: err.message,
+        status: HttpStatus.BAD_REQUEST,
+        data: null,
+      });
+    }
+  }
 }

@@ -9,5 +9,7 @@ export interface IUtilisateur extends Document{
     readonly adresse: string;
     readonly photo: string;
     refreshToken: string;
+    resetCode: string;
+
 
 }

@@ -44,5 +44,7 @@ export class CategorieService {
         }
         return deletedCategorie;
         }
+
+        
     }
       

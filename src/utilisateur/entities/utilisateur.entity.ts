@@ -37,6 +37,9 @@ export class Utilisateur extends Document {
 
     @Prop()
     refreshToken: string;
+
+    @Prop()
+    resetCode: string;
 }
 export const UserSchema = SchemaFactory.createForClass(Utilisateur).pre("save", async function(){
     this.password = await argon2.hash(this.password);

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseInterceptors, UploadedFile, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, UploadedFile, UseGuards, Req, BadRequestException } from '@nestjs/common';
 import { CreateLoginDto } from './dto/create-login.dto';
 import { AccessTokenGuard } from './guards/accesstoken.guard';
 import { Request } from 'express';
@@ -9,6 +9,8 @@ import { CreateVendeurDto } from 'src/vendeur/dto/create-vendeur.dto';
 import { CreateClientDto } from 'src/client/dto/create-client.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { AuthGuard } from '@nestjs/passport';
+
 
 
 
@@ -62,4 +64,5 @@ export class AuthController {
     const refreshToken = req.user['refreshToken'];
     return this.authService.refreshTokens(userId, refreshToken);
   }
+
 }

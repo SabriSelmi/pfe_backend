@@ -33,6 +33,10 @@ export class CreateUtilisateurDto {
     @IsNotEmpty()
     refreshToken: string;
 
+    @IsString()
+    @IsNotEmpty()
+    resetCode: string;
+
 }
 
 

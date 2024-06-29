@@ -23,7 +23,7 @@ import { UpdateVendeurDto } from './dto/update-vendeur.dto';
     }
   
     async getAllVendeurs(): Promise<IVendeur[]> {
-      const VendeurData = await this.VendeurModel.find({role:"vendeur"}).select("-__v");
+      const VendeurData = await this.VendeurModel.find({role:"vendeur"}).populate("annoncesPub").select("-__v");
       if (!VendeurData || VendeurData.length == 0){
         throw new NotFoundException('Vendeurs data not found!');
       }

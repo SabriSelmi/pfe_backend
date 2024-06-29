@@ -136,5 +136,13 @@ async getRecentAnnonces(@Res() response, @Param('limit') limit: number) {
       });
     }
   }
- 
+  @Get('vendeur/:id')
+  async getAnnoncesByVendeur(@Param('id') id: string) {
+    return await this.annonceService.getAnnoncesByVendeur(id);
+  }
+
+
 }
+
+ 
+
