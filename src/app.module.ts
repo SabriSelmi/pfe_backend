@@ -19,7 +19,13 @@ import { MessagesModule } from './messages/messages.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot("mongodb://127.0.0.1:27017",{dbName:"pfe"}), 
+    MongooseModule.forRootAsync({
+      useFactory: async (config: ConfigService) => ({
+        uri: `${config.get("MONGO_URL")}`,
+
+      }),
+      inject: [ConfigService],
+    }), 
     UtilisateurModule, AnnonceModule, AdministrateurModule, ClientModule, CategorieModule, 
     CommentaireModule, FavorisModule, NormalModule, BigdealModule, AuthModule, 
     ConfigModule.forRoot({isGlobal:true}), VendeurModule, MessagesModule, 
